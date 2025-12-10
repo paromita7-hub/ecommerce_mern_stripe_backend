@@ -30,7 +30,7 @@ connectDB();
 // CORS: allow frontend URL
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://fancy-croissant-691625.netlify.app",
     credentials: true
   })
 );

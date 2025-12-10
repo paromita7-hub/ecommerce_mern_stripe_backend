@@ -16,7 +16,7 @@ const generateToken = (id) => {
 
 // POST /api/auth/register
 // Register new user
-exports.registerUser = async (req, res) => {
+exports.registerUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
@@ -37,14 +37,13 @@ exports.registerUser = async (req, res) => {
       token: generateToken(user._id)
     });
   } catch (error) {
-    console.error("Register error:", error.message);
-    res.status(500).json({ message: "Server error" });
-  }
+    console.error("Register error:", error);
+    return next(error);} // forward to global error handler
 };
 
 // POST /api/auth/login
 // Login user
-exports.loginUser = async (req, res) => {
+exports.loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -65,6 +64,7 @@ exports.loginUser = async (req, res) => {
     return res.status(401).json({ message: "Invalid email or password" });
   } catch (error) {
     console.error("Login error:", error.message);
-    res.status(500).json({ message: "Server error" });
+    return next(error);
+    
   }
 };
